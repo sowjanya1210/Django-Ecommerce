@@ -61,14 +61,13 @@ def billing_info(request):
 			'cancel_return': 'https://{}{}'.format(host, reverse("payment_failed")),
 		}
 
-		# Create acutal paypal button
-		paypal_form = PayPalPaymentsForm(initial=paypal_dict)
+		
 
 
 		if request.user.is_authenticated:
 			# Get The Billing Form
 			billing_form = PaymentForm()
-			return render(request, "billing_info.html", {"paypal_form": paypal_form,"cart_products":cart_products, "quantities":quantities, "totals":totals, "shipping_info":request.POST, "billing_form":billing_form})
+			return render(request, "billing_info.html", {"cart_products":cart_products, "quantities":quantities, "totals":totals, "shipping_info":request.POST, "billing_form":billing_form})
 
 		else:
 			# Not logged in
