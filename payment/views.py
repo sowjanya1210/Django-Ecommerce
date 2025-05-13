@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from store.models import Product,Category,Profile
 import datetime
 from django.urls import reverse
-from paypal.standard.forms import PayPalPaymentsForm
+
 from django.conf import settings
 import uuid
 # Create your views here.
@@ -48,18 +48,7 @@ def billing_info(request):
 
 		# Get the host
 		host = request.get_host()
-		# Create Paypal Form Dictionary
-		paypal_dict = {
-			'business': settings.PAYPAL_RECEIVER_EMAIL,
-			'amount': totals,
-			'item_name': 'Book Order',
-			'no_shipping': '2',
-			'invoice': str(uuid.uuid4()),
-			'currency_code': 'USD', # EUR for Euros
-			'notify_url': 'https://{}{}'.format(host, reverse("paypal-ipn")),
-			'return_url': 'https://{}{}'.format(host, reverse("payment_success")),
-			'cancel_return': 'https://{}{}'.format(host, reverse("payment_failed")),
-		}
+
 
 		
 

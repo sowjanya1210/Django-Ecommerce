@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'store',  # Include the store app here
     'cart',   # Include the cart app here
     'payment', # Include the payment app here
-    'paypal.standard.ipn',
     'whitenoise.runserver_nostatic',  # Add this for Whitenoise
 ]
 
@@ -146,6 +145,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# PayPal settings
-PAYPAL_TEST = True
-PAYPAL_RECEIVER_EMAIL = '21131a4416@gvpce.ac.in'
