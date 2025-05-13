@@ -49,7 +49,7 @@ def billing_info(request):
 		# Get the host
 		host = request.get_host()
 		paypal_dict = {
-			'business': 'settings.PAYPAL_RECEIVER_EMAIL',
+			'business': settings.PAYPAL_RECEIVER_EMAIL,
 			'amount': totals,
 			'item_name': 'Order',
 			'no_shipping': 2,
@@ -263,8 +263,4 @@ def orders(request, pk):
 		messages.success(request, "Access Denied")
 		return redirect('home')
 	
-def payment_success(request):
-	return render(request, 'payment_success.html', {})
 
-def payment_failed(request):
-	return render(request, 'payment_failed.html', {})
