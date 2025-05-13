@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'cart',   # Include the cart app here
     'payment', # Include the payment app here
     'whitenoise.runserver_nostatic',  # Add this for Whitenoise
+    'paypal.standard.pdt',
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -145,3 +147,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+#add the paypal settings
+PAYPAL_TEST = True
+PAYPAL_RECEIVER_EMAIL = '21131a4416@gvpce.ac.in'
+PAYPAL_IDENTITY_TOKEN = 'sz_c8eOJcf8xAH2SD4y1LzXPD42ej7PC0rQrNuOxYaG14zk7SSRzwlDtPuy'

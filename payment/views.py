@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from store.models import Product,Category,Profile
 import datetime
 from django.urls import reverse
-
+from paypal.standard.forms import PayPalPaymentsForm
 from django.conf import settings
 import uuid
 # Create your views here.
@@ -48,21 +48,31 @@ def billing_info(request):
 
 		# Get the host
 		host = request.get_host()
+		paypal_dict = {
+			'business': 'settings.PAYPAL_RECEIVER_EMAIL',
+			'amount': totals,
+			'item_name': 'Order',
+			'no_shipping': 2,
+			'invoice': str(uuid.uuid4()),  # Unique invoice ID
+			'currency_code': 'USD',
+			'notify_url': 'https://{}{}'.format(host, reverse('paypal-ipn')),
+			'return_url': 'https://{}{}'.format(host, reverse('payment_success')),
+			'cancel_return': 'https://{}{}'.format(host, reverse('payment_failed')),
+		}
 
-
-		
+		paypal_form = PayPalPaymentsForm(initial=paypal_dict)
 
 
 		if request.user.is_authenticated:
 			# Get The Billing Form
 			billing_form = PaymentForm()
-			return render(request, "billing_info.html", {"cart_products":cart_products, "quantities":quantities, "totals":totals, "shipping_info":request.POST, "billing_form":billing_form})
+			return render(request, "billing_info.html", {"paypal_form":paypal_form, "cart_products":cart_products, "quantities":quantities, "totals":totals, "shipping_info":request.POST, "billing_form":billing_form})
 
 		else:
 			# Not logged in
 			# Get The Billing Form
 			billing_form = PaymentForm()
-			return render(request, "billing_info.html", {"cart_products":cart_products, "quantities":quantities, "totals":totals, "shipping_info":request.POST, "billing_form":billing_form})
+			return render(request, "billing_info.html", {"paypal_form":paypal_form,"cart_products":cart_products, "quantities":quantities, "totals":totals, "shipping_info":request.POST, "billing_form":billing_form})
 
 		# Create a session with Shipping Info
 		shipping_form = request.POST
@@ -252,3 +262,9 @@ def orders(request, pk):
 	else:
 		messages.success(request, "Access Denied")
 		return redirect('home')
+	
+def payment_success(request):
+	return render(request, 'payment_success.html', {})
+
+def payment_failed(request):
+	return render(request, 'payment_failed.html', {})
