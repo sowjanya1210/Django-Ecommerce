@@ -9,4 +9,4 @@ urlpatterns = [path('payment_success/',views.payment_success, name='payment_succ
                path('not_shipped_dash',views.not_shipped_dash, name='not_shipped_dash'),
                path('orders/<int:pk>', views.orders, name='orders'),
                path('process_order/', views.process_order, name='process_order'),
-               path('paypal/', include('paypal.standard.ipn.urls')),]
+               ]
